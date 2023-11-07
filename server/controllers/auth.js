@@ -215,3 +215,19 @@ export const currentUser = async (req, res) => {
     });
   }
 };
+
+export const publicProfile = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.params.username,
+    });
+    user.password = undefined;
+    user.resetCode = undefined;
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      error: "User not found",
+    });
+  }
+};

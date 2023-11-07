@@ -13,5 +13,6 @@ router.post("/forgot-password", auth.forgotPassword);
 router.post("/access-account", auth.accessAccount);
 router.get("/refresh-token", auth.refreshToken);
 router.get("/current-user", requireSignin, auth.currentUser);
+router.get("/profile/:username", auth.publicProfile);
 
 export default router;
