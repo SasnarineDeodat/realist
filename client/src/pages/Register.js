@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { API } from "../config";
+import toast from "react-hot-toast";
 
 export default function Register() {
   // state
@@ -14,9 +15,15 @@ export default function Register() {
         email,
         password,
       });
+      if (data?.error) {
+        toast.error(data.error);
+      } else {
+        toast.success("Please check your email to activate your account");
+      }
       console.log(data);
     } catch (err) {
       console.log(err);
+      toast.error("Something went wrong. Try again");
     }
   };
   return (
