@@ -11,7 +11,7 @@ export default function Register() {
     e.preventDefault();
     try {
       // console.log(email, password);
-      const { data } = await axios.post(`${API}/pre-register`, {
+      const { data } = await axios.post(`/pre-register`, {
         email,
         password,
       });
