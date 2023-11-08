@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import { API } from "../config";
 
 export default function Register() {
   // state
@@ -7,7 +9,12 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(email, password);
+      // console.log(email, password);
+      const { data } = await axios.post(`${API}/pre-register`, {
+        email,
+        password,
+      });
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
