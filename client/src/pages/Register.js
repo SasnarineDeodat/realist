@@ -1,6 +1,13 @@
+import { useState } from "react";
+
 export default function Register() {
-  const handleSubmit = async () => {
+  // state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
+      console.log(email, password);
     } catch (err) {
       console.log(err);
     }
@@ -19,6 +26,8 @@ export default function Register() {
                 className="form-control mb-4"
                 required
                 autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
@@ -26,6 +35,8 @@ export default function Register() {
                 className="form-control mb-4"
                 required
                 autoFocus
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button className="btn btn-primary col-12 mb-4">Register</button>
             </form>
