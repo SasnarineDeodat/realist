@@ -21,6 +21,9 @@ export default function AccountActivate() {
       if (data?.error) {
         toast.error(data.error);
       } else {
+        // save in local storage
+        localStorage.setItem("auth", JSON.stringify(data));
+        // save in context
         setAuth(data);
         toast.success("Successfully logged in. Welcome to Realist app.");
         navigate("/");
