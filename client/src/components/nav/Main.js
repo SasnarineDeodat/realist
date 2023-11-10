@@ -1,6 +1,19 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Main() {
+  // context
+  const [auth, setAuth] = useAuth();
+  // hooks
+  const navigate = useNavigate();
+
+  const logout = () => {
+    setAuth({ user: null, token: "", refreshtoken: "" });
+    localStorage.removeItem("auth");
+    navigate("/login");
+  };
+
   return (
     <div className="nav d-flex justify-content-between lead">
       <NavLink to="/" className="nav-link" aria-current="page">
@@ -25,7 +38,9 @@ export default function Main() {
               </NavLink>
             </li>
             <li>
-              <a className="nav-link">Logout</a>
+              <a onClick={logout} className="nav-link">
+                Logout
+              </a>
             </li>
           </ul>
         </li>
