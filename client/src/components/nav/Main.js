@@ -14,37 +14,51 @@ export default function Main() {
     navigate("/login");
   };
 
+  const loggedIn =
+    auth.user !== null && auth.token !== "" && auth.refreshtoken !== "";
+
   return (
-    <div className="nav d-flex justify-content-between lead">
+    <nav className="nav d-flex justify-content-between lead">
       <NavLink to="/" className="nav-link" aria-current="page">
         Home
       </NavLink>
-      <NavLink to="/login" className="nav-link">
-        Login
-      </NavLink>
-      <NavLink to="/register" className="nav-link">
-        Register
-      </NavLink>
 
-      <div className="dropdown">
-        <li>
-          <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-            User
-          </a>
-          <ul className="dropdown-menu">
-            <li>
-              <NavLink className="nav-link" to="/dashboard">
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <a onClick={logout} className="nav-link">
-                Logout
-              </a>
-            </li>
-          </ul>
-        </li>
-      </div>
-    </div>
+      {!loggedIn ? (
+        <>
+          <NavLink to="/login" className="nav-link">
+            Login
+          </NavLink>
+          <NavLink to="/register" className="nav-link">
+            Register
+          </NavLink>
+        </>
+      ) : (
+        ""
+      )}
+
+      {loggedIn ? (
+        <div className="dropdown">
+          <li>
+            <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              {auth?.user?.name ? auth.user.name : auth.user.username}
+            </a>
+            <ul className="dropdown-menu">
+              <li>
+                <NavLink className="nav-link" to="/dashboard">
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <a onClick={logout} className="nav-link">
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+        </div>
+      ) : (
+        ""
+      )}
+    </nav>
   );
 }
