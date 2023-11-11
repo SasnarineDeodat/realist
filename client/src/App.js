@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Main from "./components/nav/Main";
 import AccountActivate from "./pages/auth/AccountActivate";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import AccessAccount from "./pages/auth/AccessAccount";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
             element={<AccountActivate />}
           />
           <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/auth/access-account/:token"
+            element={<AccessAccount />}
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
