@@ -9,6 +9,7 @@ import Main from "./components/nav/Main";
 import AccountActivate from "./pages/auth/AccountActivate";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import AccessAccount from "./pages/auth/AccessAccount";
+import Dashboard from "./pages/user/Dashboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             path="/auth/access-account/:token"
             element={<AccessAccount />}
           />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
