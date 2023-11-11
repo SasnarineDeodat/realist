@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Main from "./components/nav/Main";
 import AccountActivate from "./pages/auth/AccountActivate";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             path="/auth/account-activate/:token"
             element={<AccountActivate />}
           />
+          <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
