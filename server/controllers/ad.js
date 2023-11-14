@@ -81,7 +81,33 @@ export const create = async (req, res) => {
     }
 
     const geo = await config.GOOGLE_GEOCODER.geocode(address);
-    console.log(geo);
+    // console.log(geo);
+    const ad = await new Ad({
+      ...req.body,
+      postedBy: req.user._id,
+      location: {
+        type: "Point",
+        coordinates: [geo?.[0]?.longitude, geo?.[0]?.latitude],
+      },
+      googleMap: geo,
+    }).save();
+
+    // make user role > seller
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $addToSet: { role: "Seller" },
+      },
+      { new: true },
+    );
+
+    user.password = undefined;
+    user.resetCode = undefined;
+
+    res.json({
+      ad,
+      user,
+    });
   } catch (err) {
     res.json({ error: "Something went wrong. Try again." });
     console.log(err);

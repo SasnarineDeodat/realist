@@ -14,7 +14,7 @@ const schema = new Schema(
     },
     bedrooms: Number,
     bathrooms: Number,
-    landsize: Number,
+    landsize: String,
     carpark: Number,
     location: {
       type: {
@@ -24,7 +24,7 @@ const schema = new Schema(
       },
       coordinates: {
         type: [Number],
-        default: [41.55426, -73.043068],
+        default: [-73.043068, 41.55426],
       },
     },
     title: {
