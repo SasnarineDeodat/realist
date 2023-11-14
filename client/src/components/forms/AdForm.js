@@ -24,6 +24,8 @@ export default function AdForm({ action, type }) {
     type,
     action,
   });
+  // hooks
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     try {
@@ -39,7 +41,7 @@ export default function AdForm({ action, type }) {
           ...ad,
           loading: false,
         });
-        // navigate("/dashboard");
+        navigate("/dashboard");
       }
     } catch (err) {
       console.log(err);
@@ -152,10 +154,13 @@ export default function AdForm({ action, type }) {
         }
       />
 
-      <button onClick={handleClick} className="btn btn-primary">
-        Submit
+      <button
+        onClick={handleClick}
+        className={`btn btn-primary mb-5 ${ad.loading ? "disabled" : ""} `}
+      >
+        {ad.loading ? "Saving..." : "Submit"}
       </button>
-      <pre>{JSON.stringify(ad, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(ad, null, 4)}</pre> */}
     </>
   );
 }
