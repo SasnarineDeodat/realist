@@ -48,9 +48,19 @@ export default function ImageUpload({ ad, setAd }) {
     }
   };
 
-  const handleDelete = async (e) => {
+  const handleDelete = async (file) => {
+    const answer = window.confirm("Delete image?");
+    if (!answer) return;
+    setAd({ ...ad, uploading: true });
     try {
-      setAd({ ...ad, uploading: true });
+      const { data } = await axios.post("/remove-image", file);
+      if (data?.ok) {
+        setAd((prev) => ({
+          ...prev,
+          photos: prev.photos.filter((p) => p.Key !== file.Key),
+          uploading: false,
+        }));
+      }
     } catch (err) {
       console.log(err);
       setAd({ ...ad, uploading: false });
@@ -68,12 +78,14 @@ export default function ImageUpload({ ad, setAd }) {
           hidden
         />
       </label>
-      {ad.photos?.map((file) => (
+      {ad.photos?.map((file, index) => (
         <Avatar
+          key={index}
           src={file?.Location}
           shape="square"
           size="46"
           className="ml-2 mb-4"
+          onClick={() => handleDelete(file)}
         />
       ))}
     </>
