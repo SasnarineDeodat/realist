@@ -63,12 +63,14 @@ export default function AdForm({ action, type }) {
         />
       </div>
 
-      <CurrencyInput
-        placeholder="Enter price"
-        defaultValue={ad.price}
-        className="form-control mb-3"
-        onValueChange={(value) => setAd({ ...ad, price: value })}
-      />
+      <div style={{ marginTop: "80px" }}>
+        <CurrencyInput
+          placeholder="Enter price"
+          defaultValue={ad.price}
+          className="form-control mb-3"
+          onValueChange={(value) => setAd({ ...ad, price: value })}
+        />
+      </div>
 
       <input
         type="number"

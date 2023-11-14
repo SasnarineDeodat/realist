@@ -1,5 +1,8 @@
 import * as config from "../config.js";
 import { nanoid } from "nanoid";
+import slugify from "slugify";
+import Ad from "../models/ad.js";
+import User from "../models/user.js";
 
 export const uploadImage = async (req, res) => {
   try {
@@ -58,7 +61,27 @@ export const removeImage = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
+    const { photos, description, title, address, price, type, landsize } =
+      req.body;
+    if (!photos?.length) {
+      return res.json({ error: "Photos are required" });
+    }
+    if (!price) {
+      return res.json({ error: "Price are required" });
+    }
+    if (!type) {
+      return res.json({ error: "Is property house or land?" });
+    }
+    if (!address) {
+      return res.json({ error: "Address is required" });
+    }
+    if (!description) {
+      return res.json({ error: "Description is required" });
+    }
+
+    const geo = await config.GOOGLE_GEOCODER.geocode(address);
+    console.log(geo);
   } catch (err) {
     res.json({ error: "Something went wrong. Try again." });
     console.log(err);
