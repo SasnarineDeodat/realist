@@ -27,7 +27,7 @@ export const uploadImage = async (req, res) => {
         console.log(err);
         res.sendStatus(400);
       } else {
-        console.log(data);
+        // console.log(data);
         res.send(data);
       }
     });
