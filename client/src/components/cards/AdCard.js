@@ -3,6 +3,9 @@ import { TbBath } from "react-icons/tb";
 import { BiArea } from "react-icons/bi";
 
 export default function AdCard({ ad }) {
+  function formatNumber(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return (
     <div className="col-lg-4 p-4 gx-4 gy-4">
       <div className="card hoverable shadow">
@@ -13,9 +16,8 @@ export default function AdCard({ ad }) {
         />
 
         <div className="card-body">
-          <div className="d-flex justify-content-between">
-            <h3>{ad?.price}</h3>
-          </div>
+          <h3>${formatNumber(ad?.price)}</h3>
+          <p className="card-text">{ad?.address}</p>
 
           <p className="card-text d-flex justify-content-between">
             {ad?.bedrooms ? (
