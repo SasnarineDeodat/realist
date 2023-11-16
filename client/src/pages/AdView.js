@@ -50,7 +50,24 @@ export default function AdView() {
   };
   return (
     <>
-      <ImageGallery photos={generatePhotosArray(ad?.photos)} />
+      <div className="container-fluid">
+        <div className="row mt-2">
+          <div className="col-lg-4">
+            <button className="btn btn-primary disabled mt-2">
+              {ad.type} for {ad.action}
+            </button>
+
+            <div className="mt-4 mb-4">
+              {ad?.sold ? "❌ Off market" : "✅ In market"}
+            </div>
+          </div>
+          <h1>{ad.address}</h1>
+          <div className="col-lg-8">
+            <ImageGallery photos={generatePhotosArray(ad?.photos)} />
+          </div>
+        </div>
+      </div>
+
       <pre>{JSON.stringify({ ad, related }, null, 4)}</pre>
     </>
   );
