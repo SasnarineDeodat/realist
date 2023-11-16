@@ -8,6 +8,7 @@ import { formatNumber } from "../helpers/ad";
 import daysjs from "dayjs";
 
 import relativeTime from "dayjs/plugin/relativeTime";
+import LikeUnlike from "../components/misc/LikeUnlike";
 
 daysjs.extend(relativeTime);
 
@@ -61,9 +62,12 @@ export default function AdView() {
       <div className="container-fluid">
         <div className="row mt-2">
           <div className="col-lg-4">
-            <button className="btn btn-primary disabled mt-2">
-              {ad.type} for {ad.action}
-            </button>
+            <div className="d-flex justify-content-around">
+              <button className="btn btn-primary disabled mt-2">
+                {ad.type} for {ad.action}
+              </button>
+              <LikeUnlike ad={ad} />
+            </div>
 
             <div className="mt-4 mb-4">
               {ad?.sold ? "❌ Off market" : "✅ In market"}
