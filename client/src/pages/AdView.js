@@ -4,6 +4,13 @@ import axios from "axios";
 import ImageGallery from "../components/misc/ImageGallery";
 import Logo from "../logo.svg";
 import AdFeatures from "../components/cards/AdFeatures";
+import { formatNumber } from "../helpers/ad";
+import daysjs from "dayjs";
+
+import relativeTime from "dayjs/plugin/relativeTime";
+
+daysjs.extend(relativeTime);
+
 export default function AdView() {
   // state
   const [ad, setAd] = useState({});
@@ -64,6 +71,8 @@ export default function AdView() {
           </div>
           <h1>{ad.address}</h1>
           <AdFeatures ad={ad} />
+          <h3 className="mt-3 h2">{formatNumber(ad.price)}</h3>
+          <p className="text-muted">{daysjs(ad?.createdAt).fromNow()}</p>
           <div className="col-lg-8">
             <ImageGallery photos={generatePhotosArray(ad?.photos)} />
           </div>

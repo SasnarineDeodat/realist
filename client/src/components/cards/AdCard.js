@@ -1,11 +1,9 @@
 import { Badge } from "antd";
 import { Link } from "react-router-dom";
 import AdFeatures from "./AdFeatures";
+import { formatNumber } from "../../helpers/ad";
 
 export default function AdCard({ ad }) {
-  function formatNumber(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
   return (
     <div className="col-lg-4 p-4 gx-4 gy-4">
       <Link to={`/ad/${ad.slug}`}>
