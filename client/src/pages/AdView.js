@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ImageGallery from "../components/misc/ImageGallery";
 import Logo from "../logo.svg";
+import AdFeatures from "../components/cards/AdFeatures";
 export default function AdView() {
   // state
   const [ad, setAd] = useState({});
@@ -62,6 +63,7 @@ export default function AdView() {
             </div>
           </div>
           <h1>{ad.address}</h1>
+          <AdFeatures ad={ad} />
           <div className="col-lg-8">
             <ImageGallery photos={generatePhotosArray(ad?.photos)} />
           </div>

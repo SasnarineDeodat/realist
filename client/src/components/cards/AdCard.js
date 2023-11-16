@@ -1,8 +1,6 @@
-import { IoBedOutline } from "react-icons/io5";
-import { TbBath } from "react-icons/tb";
-import { BiArea } from "react-icons/bi";
 import { Badge } from "antd";
 import { Link } from "react-router-dom";
+import AdFeatures from "./AdFeatures";
 
 export default function AdCard({ ad }) {
   function formatNumber(x) {
@@ -27,34 +25,7 @@ export default function AdCard({ ad }) {
               <h3>${formatNumber(ad?.price)}</h3>
               <p className="card-text">{ad?.address}</p>
 
-              <p className="card-text d-flex justify-content-between">
-                {ad?.bedrooms ? (
-                  <span>
-                    <IoBedOutline />
-                    {ad?.bedrooms}
-                  </span>
-                ) : (
-                  ""
-                )}
-
-                {ad?.bathrooms ? (
-                  <span>
-                    <TbBath />
-                    {ad?.bathrooms}
-                  </span>
-                ) : (
-                  ""
-                )}
-
-                {ad?.landsize ? (
-                  <span>
-                    <BiArea />
-                    {ad?.landsize}
-                  </span>
-                ) : (
-                  ""
-                )}
-              </p>
+              <AdFeatures ad={ad} />
             </div>
           </div>
         </Badge.Ribbon>
