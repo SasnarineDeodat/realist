@@ -13,7 +13,9 @@ export default function LikeUnlike({ ad }) {
   const handleLike = async () => {
     try {
       if (auth.user === null) {
-        navigate("/login");
+        navigate("/login", {
+          state: `/ad/${ad.slug}`,
+        });
         return;
       }
       const { data } = await axios.post("/wishlist", { adId: ad._id });
@@ -31,7 +33,9 @@ export default function LikeUnlike({ ad }) {
   const handleUnlike = async () => {
     try {
       if (auth.user === null) {
-        navigate("/login");
+        navigate("/login", {
+          state: `/ad/${ad.slug}`,
+        });
         return;
       }
       const { data } = await axios.delete(`/wishlist/${ad._id}`);
