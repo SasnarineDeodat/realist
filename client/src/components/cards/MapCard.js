@@ -1,23 +1,32 @@
 import GoogleMapReact from "google-map-react";
-import { GOOGLE_PLACES_KEY } from "../../config";
+import { GOOGLE_MAPS_KEY } from "../../config";
 
-export default function MapCard() {
+// 151.20929, -33.86882
+export default function MapCard({ ad }) {
   const defaultProps = {
     center: {
-      lat: -73.043068,
-      lng: 41.55426,
+      lat: ad?.location?.coordinates[1],
+      lng: ad?.location?.coordinates[0],
     },
     zoom: 11,
   };
-  return (
-    <div style={{ width: "100%", height: "350px" }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: GOOGLE_PLACES_KEY,
-        }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-      />
-    </div>
-  );
+
+  if (ad?.location?.coordinates?.length) {
+    return (
+      <div style={{ width: "100%", height: "350px" }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+        >
+          <div
+            lat={ad?.location.coordinates[1]}
+            lng={ad?.location.coordinates[0]}
+          >
+            <span className="lead">📍</span>
+          </div>
+        </GoogleMapReact>
+      </div>
+    );
+  }
 }
