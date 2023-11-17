@@ -9,6 +9,7 @@ import daysjs from "dayjs";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import LikeUnlike from "../components/misc/LikeUnlike";
+import MapCard from "../components/cards/MapCard";
 
 daysjs.extend(relativeTime);
 
@@ -61,8 +62,8 @@ export default function AdView() {
     <>
       <div className="container-fluid">
         <div className="row mt-2">
-          <div className="col-lg-4">
-            <div className="d-flex justify-content-around">
+          <div className="col-lg-6">
+            <div className="d-flex justify-content-between">
               <button className="btn btn-primary disabled mt-2">
                 {ad.type} for {ad.action}
               </button>
@@ -72,18 +73,26 @@ export default function AdView() {
             <div className="mt-4 mb-4">
               {ad?.sold ? "❌ Off market" : "✅ In market"}
             </div>
+
+            <h1>{ad.address}</h1>
+            <AdFeatures ad={ad} />
+            <h3 className="mt-3 h2">{formatNumber(ad.price)}</h3>
+            <p className="text-muted">{daysjs(ad?.createdAt).fromNow()}</p>
           </div>
-          <h1>{ad.address}</h1>
-          <AdFeatures ad={ad} />
-          <h3 className="mt-3 h2">{formatNumber(ad.price)}</h3>
-          <p className="text-muted">{daysjs(ad?.createdAt).fromNow()}</p>
-          <div className="col-lg-8">
+
+          <div className="col-lg-6">
             <ImageGallery photos={generatePhotosArray(ad?.photos)} />
           </div>
         </div>
       </div>
 
-      <pre>{JSON.stringify({ ad, related }, null, 4)}</pre>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-8 offset-lg-2">
+            <MapCard ad={ad} />
+          </div>
+        </div>
+      </div>
     </>
   );
 }
