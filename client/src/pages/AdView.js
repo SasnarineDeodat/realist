@@ -6,10 +6,11 @@ import Logo from "../logo.svg";
 import AdFeatures from "../components/cards/AdFeatures";
 import { formatNumber } from "../helpers/ad";
 import daysjs from "dayjs";
-
-import relativeTime from "dayjs/plugin/relativeTime";
 import LikeUnlike from "../components/misc/LikeUnlike";
 import MapCard from "../components/cards/MapCard";
+import HTMLRenderer from "react-html-renderer";
+
+import relativeTime from "dayjs/plugin/relativeTime";
 
 daysjs.extend(relativeTime);
 
@@ -90,6 +91,17 @@ export default function AdView() {
         <div className="row">
           <div className="col-lg-8 offset-lg-2 mt-3">
             <MapCard ad={ad} />
+
+            <br />
+            <h1>
+              {ad?.type} in {ad?.address} for {ad?.action} ${ad?.price}
+            </h1>
+            <AdFeatures ad={ad} />
+
+            <hr />
+            <h3 className="fw-bold">{ad?.title}</h3>
+
+            <HTMLRenderer html={ad?.description?.replaceAll(".", "<br><br>")} />
           </div>
         </div>
       </div>
