@@ -12,6 +12,7 @@ import HTMLRenderer from "react-html-renderer";
 import AddCard from "../components/cards/AdCard";
 
 import relativeTime from "dayjs/plugin/relativeTime";
+import ContactSeller from "../components/forms/ContactSeller";
 
 daysjs.extend(relativeTime);
 
@@ -106,6 +107,11 @@ export default function AdView() {
           </div>
         </div>
       </div>
+
+      <div className="container">
+        <ContactSeller ad={ad} />
+      </div>
+
       <div className="container-fluid">
         <h4 className="text-center mb-3">Related Properties</h4>
         <hr style={{ width: "33%" }} />
