@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function ContactSeller({ ad }) {
   // context
@@ -10,11 +12,46 @@ export default function ContactSeller({ ad }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("");
   // hooks
   const navigate = useNavigate();
 
   const loggedIn = auth.user !== null && auth.token !== "";
+
+  useEffect(() => {
+    if (loggedIn) {
+      setName(auth.user?.name);
+      setEmail(auth.user?.email);
+      setPhone(auth.user?.phone);
+    }
+  }, [loggedIn]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { data } = await axios.post("/contact-seller", {
+        name,
+        email,
+        message,
+        phone,
+        adId: ad._id,
+      });
+      if (data?.error) {
+        toast.error(data?.error);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        toast.success("Your enquiry has been emailed to the seller");
+        setMessage("");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong. Try again.");
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="row">
@@ -24,7 +61,7 @@ export default function ContactSeller({ ad }) {
             {ad?.postedBy?.name ? ad?.postedBy?.name : ad?.postedBy?.username}
           </h3>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <textarea
               name="message"
               className="form-control mb-3"
@@ -38,7 +75,7 @@ export default function ContactSeller({ ad }) {
             <input
               type="text"
               className="form-control mb-3"
-              placeholder="Enter you name"
+              placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={!loggedIn}
@@ -47,7 +84,7 @@ export default function ContactSeller({ ad }) {
             <input
               type="text"
               className="form-control mb-3"
-              placeholder="Enter you email"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={!loggedIn}
@@ -56,14 +93,15 @@ export default function ContactSeller({ ad }) {
             <input
               type="text"
               className="form-control mb-3"
-              placeholder="Enter you phone"
+              placeholder="Enter your phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               disabled={!loggedIn}
             />
+
             <button
               className="btn btn-primary mt-4 mb-5"
-              disabled={!name || !email || !loading}
+              disabled={!name || !email || loading}
             >
               {loggedIn
                 ? loading
