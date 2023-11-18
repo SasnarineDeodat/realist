@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import slugify from "slugify";
 import Sidebar from "../../components/nav/Sidebar";
+import ProfileUpload from "../../components/forms/ProfileUpload";
 
 export default function Profile() {
   // context
@@ -63,6 +64,13 @@ export default function Profile() {
         <div className="container mt-2">
           <div className="row">
             <div className="col-lg-8 offset-lg-2 mt-2">
+              <ProfileUpload
+                photo={photo}
+                setPhoto={setPhoto}
+                uploading={uploading}
+                setUploading={setUploading}
+              />
+
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"
