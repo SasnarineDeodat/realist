@@ -13,6 +13,8 @@ export default function ContactSeller({ ad }) {
   const [loading, setLoading] = useState(false);
   // hooks
   const navigate = useNavigate();
+
+  const loggedIn = auth.user !== null && auth.token !== "";
   return (
     <>
       <div className="row">
@@ -21,6 +23,55 @@ export default function ContactSeller({ ad }) {
             Contact{" "}
             {ad?.postedBy?.name ? ad?.postedBy?.name : ad?.postedBy?.username}
           </h3>
+
+          <form>
+            <textarea
+              name="message"
+              className="form-control mb-3"
+              placeholder="Write your message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              autoFocus={true}
+              disabled={!loggedIn}
+            ></textarea>
+
+            <input
+              type="text"
+              className="form-control mb-3"
+              placeholder="Enter you name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={!loggedIn}
+            />
+
+            <input
+              type="text"
+              className="form-control mb-3"
+              placeholder="Enter you email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={!loggedIn}
+            />
+
+            <input
+              type="text"
+              className="form-control mb-3"
+              placeholder="Enter you phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              disabled={!loggedIn}
+            />
+            <button
+              className="btn btn-primary mt-4 mb-5"
+              disabled={!name || !email || !loading}
+            >
+              {loggedIn
+                ? loading
+                  ? "Please wait"
+                  : "Send enquiry"
+                : "Login to send enquiry"}
+            </button>
+          </form>
         </div>
       </div>
     </>
