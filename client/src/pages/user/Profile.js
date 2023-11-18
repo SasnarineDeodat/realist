@@ -30,12 +30,30 @@ export default function Profile() {
       setName(auth.user?.name);
       setEmail(auth.user?.email);
       setCompany(auth.user?.company);
-      setAddress(auth.user?.username);
-      setPhone(auth.user?.address);
+      setAddress(auth.user?.address);
+      setPhone(auth.user?.phone);
       setAbout(auth.user?.about);
       setPhoto(auth.user?.photo);
     }
   }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log({
+        username,
+        name,
+        email,
+        company,
+        address,
+        phone,
+        about,
+        photo,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -43,18 +61,75 @@ export default function Profile() {
       <div className="container-fluid">
         <Sidebar />
         <div className="container mt-2">
-          <pre>
-            {JSON.stringify({
-              username,
-              name,
-              email,
-              company,
-              address,
-              phone,
-              about,
-              photo,
-            })}
-          </pre>
+          <div className="row">
+            <div className="col-lg-8 offset-lg-2 mt-2">
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  placeholder="Update your username"
+                  className="form-control mb-4"
+                  value={username}
+                  onChange={(e) =>
+                    setUsername(slugify(e.target.value.toLowerCase()))
+                  }
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  className="form-control mb-4"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+
+                <input
+                  type="email"
+                  className="form-control  mb-4"
+                  value={email}
+                  disabled={true}
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter your company name"
+                  className="form-control mb-4"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter your address"
+                  className="form-control mb-4"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter your phone"
+                  className="form-control mb-4"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+
+                <textarea
+                  type="text"
+                  placeholder="Write something interesting about yourself..."
+                  className="form-control mb-4"
+                  value={about}
+                  onChange={(e) => setAbout(e.target.value)}
+                  maxLength={200}
+                />
+                <button
+                  className="btn btn-primary col-12 mb-4"
+                  disabled={loading}
+                >
+                  {loading ? "Processing" : "Update Profile"}
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </>
