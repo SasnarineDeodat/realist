@@ -9,6 +9,7 @@ import daysjs from "dayjs";
 import LikeUnlike from "../components/misc/LikeUnlike";
 import MapCard from "../components/cards/MapCard";
 import HTMLRenderer from "react-html-renderer";
+import AddCard from "../components/cards/AdCard";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -103,6 +104,15 @@ export default function AdView() {
 
             <HTMLRenderer html={ad?.description?.replaceAll(".", "<br><br>")} />
           </div>
+        </div>
+      </div>
+      <div className="container-fluid">
+        <h4 className="text-center mb-3">Related Properties</h4>
+        <hr style={{ width: "33%" }} />
+        <div className="row">
+          {related?.map((ad) => (
+            <AddCard key={ad._id} ad={ad} />
+          ))}
         </div>
       </div>
     </>
