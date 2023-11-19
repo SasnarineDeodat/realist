@@ -253,3 +253,27 @@ export const contactSeller = async (req, res) => {
     console.log(err);
   }
 };
+
+export const userAds = async (req, res) => {
+  try {
+    const perPage = 2;
+    const page = req.params.page ? req.params.page : 1;
+
+    const total = await Ad.find({ postedBy: req.user._id });
+
+    const ads = await Ad.find({
+      postedBy: req.user._id,
+    })
+      .select(
+        "-photo.Key -photos.key -photos.Etag - photos.Bucket -location -googleMap",
+      )
+      .populate("postedBy", "name email username phone company")
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 });
+
+    res.json({ ads, total: total.length });
+  } catch (err) {
+    console.log(err);
+  }
+};
