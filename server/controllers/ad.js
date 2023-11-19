@@ -197,3 +197,22 @@ export const removeFromWishlist = async (req, res) => {
     console.log(err);
   }
 };
+
+export const contactSeller = async (req, res) => {
+  try {
+    const { name, email, message, phone, adId } = req.body;
+    const ad = await Ad.findById(adId).populate("posteBy", "email");
+
+    const user = await User.findByIdAndUpdate(req.user._id, {
+      $addToSet: { enquiredProperties: adId },
+    });
+
+    if (!user) {
+      return res.json({ error: "Could not find user with that email" });
+    } else {
+      
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
