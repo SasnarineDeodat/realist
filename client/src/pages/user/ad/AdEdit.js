@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GooglePlacesAutoComplete from "react-google-places-autocomplete";
 import { GOOGLE_PLACES_KEY } from "../../../config";
 import CurrencyInput from "react-currency-input-field";
@@ -30,21 +30,49 @@ export default function AdEdit({ action, type }) {
   const navigate = useNavigate();
   const params = useParams();
 
+  useEffect(() => {
+    if (params?.slug) {
+      fetchAd();
+    }
+  }, [params?.slug]);
+
+  const fetchAd = async () => {
+    try {
+      const { data } = await axios.get(`/ad/${params.slug}`);
+      // console.log("single ad edit page =>", data);
+      setAd(data.ad);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleClick = async () => {
     try {
-      setAd({ ...ad, loading: true });
-      const { data } = await axios.put(`/ad/${ad._id}`, ad);
-      console.log("ad create response =>", data);
-      if (data?.error) {
-        toast.error(data.error);
-        setAd({ ...ad, loading: false });
+      // validation
+      if (!ad.photos?.length) {
+        toast.error("Photo is required");
+        return;
+      } else if (!ad.price) {
+        toast.error("Price is required");
+      } else if (!ad.description) {
+        toast.error("Description is required");
+        return;
       } else {
-        toast.success("Ad created successfully");
-        setAd({
-          ...ad,
-          loading: false,
-        });
-        navigate("/dashboard");
+        // make API put request
+        setAd({ ...ad, loading: true });
+        const { data } = await axios.put(`/ad/${ad._id}`, ad);
+        // console.log("ad create response =>", data);
+        if (data?.error) {
+          toast.error(data.error);
+          setAd({ ...ad, loading: false });
+        } else {
+          toast.success("Ad updated successfully");
+          setAd({
+            ...ad,
+            loading: false,
+          });
+          navigate("/dashboard");
+        }
       }
     } catch (err) {
       console.log(err);
@@ -58,29 +86,37 @@ export default function AdEdit({ action, type }) {
       <div className="container">
         <div className="mb-3 form-control">
           <ImageUpload ad={ad} setAd={setAd} />
-          <GooglePlacesAutoComplete
-            apiKey={GOOGLE_PLACES_KEY}
-            apiOptions="us"
-            selectProps={{
-              defaultInputValue: ad?.address,
-              placeholder: "Search for address...",
-              onChange: ({ value }) => {
-                setAd({ ...ad, address: value.description });
-              },
-            }}
-          />
+          {ad.address ? (
+            <GooglePlacesAutoComplete
+              apiKey={GOOGLE_PLACES_KEY}
+              apiOptions="us"
+              selectProps={{
+                defaultInputValue: ad?.address,
+                placeholder: "Search for address...",
+                onChange: ({ value }) => {
+                  setAd({ ...ad, address: value.description });
+                },
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
 
-        <div style={{ marginTop: "80px" }}>
-          <CurrencyInput
-            placeholder="Enter price"
-            defaultValue={ad.price}
-            className="form-control mb-3"
-            onValueChange={(value) => setAd({ ...ad, price: value })}
-          />
-        </div>
+        {ad.price ? (
+          <div style={{ marginTop: "80px" }}>
+            <CurrencyInput
+              placeholder="Enter price"
+              defaultValue={ad.price}
+              className="form-control mb-3"
+              onValueChange={(value) => setAd({ ...ad, price: value })}
+            />
+          </div>
+        ) : (
+          ""
+        )}
 
-        {type === "House" ? (
+        {ad.type === "House" ? (
           <>
             <input
               type="number"
