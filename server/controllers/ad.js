@@ -264,9 +264,6 @@ export const userAds = async (req, res) => {
     const ads = await Ad.find({
       postedBy: req.user._id,
     })
-      .select(
-        "-photo.Key -photos.key -photos.Etag - photos.Bucket -location -googleMap",
-      )
       .populate("postedBy", "name email username phone company")
       .skip((page - 1) * perPage)
       .limit(perPage)
