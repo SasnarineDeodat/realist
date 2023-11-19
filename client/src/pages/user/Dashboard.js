@@ -8,8 +8,10 @@ export default function Dashboard() {
   // context
   const [auth, setAuth] = useAuth();
   // state
-  const [ads, setAds] = useState();
-  const [total, setTotal] = useState();
+  const [ads, setAds] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const seller = auth.user?.role?.includes("Seller");
 
@@ -17,13 +19,31 @@ export default function Dashboard() {
     fetchAds();
   }, [auth.token !== ""]);
 
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
+
   const fetchAds = async () => {
     try {
-      const { data } = await axios.get("/user-ads");
+      const { data } = await axios.get(`/user-ads/${page}`);
       setAds(data.ads);
       setTotal(data.total);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/user-ads/${page}`);
+      setAds([...ads, ...data.ads]);
+      setTotal(data.total);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
     }
   };
   return (
@@ -53,6 +73,21 @@ export default function Dashboard() {
             {ads?.map((ad) => (
               <UserAdCard ad={ad} />
             ))}
+          </div>
+
+          <div className="row">
+            <div className="col text-center mt-4 mb-4">
+              <button
+                disabled={loading}
+                className="btn btn-warning"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              >
+                {loading ? "Loading..." : `${ads?.length} / ${total} Load more`}
+              </button>
+            </div>
           </div>
         </div>
       )}
