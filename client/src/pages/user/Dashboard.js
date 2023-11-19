@@ -21,31 +21,20 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (page === 1) return;
-    loadMore();
+    fetchAds();
   }, [page]);
 
   const fetchAds = async () => {
     try {
       const { data } = await axios.get(`/user-ads/${page}`);
-      setAds(data.ads);
+      // setAds(data.ads);
+      setAds([...ads, ...data.ads]);
       setTotal(data.total);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const loadMore = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`/user-ads/${page}`);
-      setAds([...ads, ...data.ads]);
-      setTotal(data.total);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
-  };
   return (
     <div>
       <h1 className="display-1 bg-primary text-light p-5">Dashboard</h1>
@@ -75,20 +64,26 @@ export default function Dashboard() {
             ))}
           </div>
 
-          <div className="row">
-            <div className="col text-center mt-4 mb-4">
-              <button
-                disabled={loading}
-                className="btn btn-warning"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}
-              >
-                {loading ? "Loading..." : `${ads?.length} / ${total} Load more`}
-              </button>
+          {ads?.length < total ? (
+            <div className="row">
+              <div className="col text-center mt-4 mb-4">
+                <button
+                  disabled={loading}
+                  className="btn btn-warning"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(page + 1);
+                  }}
+                >
+                  {loading
+                    ? "Loading..."
+                    : `${ads?.length} / ${total} Load more`}
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
       )}
     </div>
