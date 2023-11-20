@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+
 export default function Sidebar() {
   return (
     <>
@@ -6,6 +7,16 @@ export default function Sidebar() {
         <li className="nav-item">
           <NavLink className="nav-link" to="/dashboard">
             Dashboard
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/user/wishlist">
+            Wishlist
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/user/enquiries">
+            Enquiries
           </NavLink>
         </li>
         <li className="nav-item">

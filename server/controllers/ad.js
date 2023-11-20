@@ -322,7 +322,7 @@ export const update = async (req, res) => {
 
 export const enquiriedProperties = async (req, res) => {
   try {
-    const user = await User.finById(req.user._id);
+    const user = await User.findById(req.user._id);
     const ads = await Ad.find({
       _id: user.enquiredProperties,
     }).sort({
@@ -335,7 +335,7 @@ export const enquiriedProperties = async (req, res) => {
 };
 export const wishlist = async (req, res) => {
   try {
-    const user = await User.finById(req.user._id);
+    const user = await User.findById(req.user._id);
     const ads = await Ad.find({
       _id: user.wishlist,
     }).sort({
