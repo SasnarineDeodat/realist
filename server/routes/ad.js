@@ -18,7 +18,7 @@ router.post("/contact-seller", requireSignin, ad.contactSeller);
 router.get("/user-ads/:page", requireSignin, ad.userAds);
 router.put("/ad/:_id", requireSignin, ad.update);
 
-router.get("/enquiried-properties", requireSignin, ad.enquiriedProperties);
+router.get("/enquiries", requireSignin, ad.enquiriedProperties);
 router.get("/wishlist", requireSignin, ad.wishlist);
 
 export default router;
