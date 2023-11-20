@@ -60,7 +60,7 @@ export default function Dashboard() {
 
           <div className="row">
             {ads?.map((ad) => (
-              <UserAdCard ad={ad} />
+              <UserAdCard ad={ad} key={ad._id} />
             ))}
           </div>
 

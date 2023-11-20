@@ -5,7 +5,7 @@ import { formatNumber } from "../../helpers/ad";
 
 export default function UserAdCard({ ad }) {
   return (
-    <div className="col-lg-4 p-4 gx-4 gy-4" key={ad._id}>
+    <div className="col-lg-4 p-4 gx-4 gy-4">
       <Link to={`/user/ad/${ad.slug}`}>
         {" "}
         <Badge.Ribbon

@@ -26,6 +26,8 @@ export default function AdEdit({ action, type }) {
     type,
     action,
   });
+  const [loaded, setLoaded] = useState(false);
+
   // hooks
   const navigate = useNavigate();
   const params = useParams();
@@ -40,7 +42,8 @@ export default function AdEdit({ action, type }) {
     try {
       const { data } = await axios.get(`/ad/${params.slug}`);
       // console.log("single ad edit page =>", data);
-      setAd(data.ad);
+      setAd(data?.ad);
+      setLoaded(true);
     } catch (err) {
       console.log(err);
     }
@@ -86,7 +89,7 @@ export default function AdEdit({ action, type }) {
       <div className="container">
         <div className="mb-3 form-control">
           <ImageUpload ad={ad} setAd={setAd} />
-          {ad.address ? (
+          {loaded ? (
             <GooglePlacesAutoComplete
               apiKey={GOOGLE_PLACES_KEY}
               apiOptions="us"
@@ -103,7 +106,7 @@ export default function AdEdit({ action, type }) {
           )}
         </div>
 
-        {ad.price ? (
+        {loaded ? (
           <div style={{ marginTop: "80px" }}>
             <CurrencyInput
               placeholder="Enter price"
