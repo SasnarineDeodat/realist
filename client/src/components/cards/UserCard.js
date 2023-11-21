@@ -25,7 +25,7 @@ export default function UserCard({ user }) {
 
   return (
     <div className="col-lg-4 p-4 gx-4 gy-4">
-      <Link to={`/user/${user.username}`}>
+      <Link to={`/agent/${user.username}`}>
         <Badge.Ribbon text={`${count} listings`}>
           <div className="card hoverable shadow">
             <img

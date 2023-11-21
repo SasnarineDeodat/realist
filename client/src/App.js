@@ -24,6 +24,7 @@ import AdEdit from "./pages/user/ad/AdEdit";
 import Wishlist from "./pages/user/Wishlist";
 import Enquiries from "./pages/user/Enquiries";
 import Agents from "./pages/user/Agents";
+import Agent from "./pages/Agent";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
 
           <Route path="/ad/:slug" element={<AdView />} />
           <Route path="/agents" element={<Agents />} />
+          <Route path="/agent/:username" element={<Agent />} />
         </Routes>
         <Footer />
       </AuthProvider>
