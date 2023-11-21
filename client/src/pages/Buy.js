@@ -7,8 +7,7 @@ export default function Buy() {
   // context
   const [auth, setAuth] = useAuth();
   // state
-  const [adsForSell, setAdsForSell] = useState();
-  const [adsForRent, setAdsForRent] = useState();
+  const [ads, setAds] = useState();
 
   useEffect(() => {
     fetchAds();
@@ -16,9 +15,8 @@ export default function Buy() {
 
   const fetchAds = async () => {
     try {
-      const { data } = await axios.get("/ads");
-      setAdsForSell(data.adsForSell);
-      setAdsForRent(data.adsForRent);
+      const { data } = await axios.get("/ads-for-sell");
+      setAds(data);
     } catch (err) {
       console.log(err);
     }
@@ -29,7 +27,7 @@ export default function Buy() {
 
       <div className="container">
         <div className="row">
-          {adsForSell?.map((ad) => (
+          {ads?.map((ad) => (
             <AdCard ad={ad} key={ad._id} />
           ))}
         </div>
