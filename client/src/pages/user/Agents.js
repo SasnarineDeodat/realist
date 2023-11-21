@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import UserCard from "../../components/cards/UserCard";
 
 export default function Agents() {
   // state
@@ -27,7 +28,7 @@ export default function Agents() {
       <div className="container">
         <div className="row">
           {agents?.map((agent) => (
-            <h1>{agent.username}</h1>
+            <UserCard user={agent} key={agent._id} />
           ))}
         </div>
       </div>
