@@ -28,6 +28,7 @@ import Agents from "./pages/user/Agents";
 import Agent from "./pages/Agent";
 import Buy from "./pages/Buy";
 import Rent from "./pages/Rent";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
 
             <Route path="/buy" element={<Buy />} />
             <Route path="/rent" element={<Rent />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
           <Footer />
         </SearchProvider>

@@ -30,6 +30,10 @@ export default function Main() {
         Home
       </NavLink>
 
+      <NavLink to="/search" className="nav-link" aria-current="page">
+        Search
+      </NavLink>
+
       <NavLink to="/buy" className="nav-link" aria-current="page">
         Buy
       </NavLink>
