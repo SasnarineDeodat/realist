@@ -296,7 +296,7 @@ export const agents = async (req, res) => {
 };
 export const agentAdCount = async (req, res) => {
   try {
-    const ads = Ad.find({ postedBy: req.params._id }).select("_id");
+    const ads = await Ad.find({ postedBy: req.params._id }).select("_id");
     res.json(ads);
   } catch (err) {
     console.log(err);

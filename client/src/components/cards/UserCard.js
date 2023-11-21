@@ -3,13 +3,30 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router-dom";
 import Logo from "../../logo.svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 dayjs.extend(relativeTime);
 export default function UserCard({ user }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (user?._id) fetchAdCount();
+  }, [user?._id]);
+
+  const fetchAdCount = async () => {
+    try {
+      const { data } = await axios.get(`/agent-ad-count/${user._id}`);
+      setCount(data.length);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="col-lg-4 p-4 gx-4 gy-4">
       <Link to={`/user/${user.username}`}>
-        <Badge.Ribbon text={`x listings`}>
+        <Badge.Ribbon text={`${count} listings`}>
           <div className="card hoverable shadow">
             <img
               src={user?.photo?.Location ?? Logo}
