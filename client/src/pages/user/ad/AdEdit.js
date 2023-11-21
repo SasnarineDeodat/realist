@@ -79,6 +79,26 @@ export default function AdEdit({ action, type }) {
       }
     } catch (err) {
       console.log(err);
+      setAd({ ...ad, loading: false });
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      setAd({ ...ad, loading: true });
+
+      const { data } = await axios.delete(`/ad/${ad._id}`);
+      if (data?.error) {
+        toast.error(data.error);
+        setAd({ ...ad, loading: false });
+      } else {
+        toast.success("Ad deleted successfully");
+        setAd({ ...ad, loading: false });
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+      setAd({ ...ad, loading: false });
     }
   };
 
@@ -205,12 +225,22 @@ export default function AdEdit({ action, type }) {
           }
         />
 
-        <button
-          onClick={handleClick}
-          className={`btn btn-primary mb-5 ${ad.loading ? "disabled" : ""} `}
-        >
-          {ad.loading ? "Saving..." : "Submit"}
-        </button>
+        <div className="d-flex justify-content-between">
+          <button
+            onClick={handleClick}
+            className={`btn btn-primary mb-5 ${ad.loading ? "disabled" : ""} `}
+          >
+            {ad.loading ? "Saving..." : "Submit"}
+          </button>
+
+          <button
+            onClick={handleDelete}
+            className={`btn btn-danger mb-5 ${ad.loading ? "disabled" : ""} `}
+          >
+            {ad.loading ? "Deleting..." : "Delete"}
+          </button>
+        </div>
+
         {/* <pre>{JSON.stringify(ad, null, 4)}</pre> */}
       </div>
     </div>

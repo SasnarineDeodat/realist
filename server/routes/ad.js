@@ -20,5 +20,6 @@ router.put("/ad/:_id", requireSignin, ad.update);
 
 router.get("/enquiries", requireSignin, ad.enquiriedProperties);
 router.get("/wishlist", requireSignin, ad.wishlist);
+router.delete("/ad/:_id", requireSignin, ad.remove);
 
 export default router;
