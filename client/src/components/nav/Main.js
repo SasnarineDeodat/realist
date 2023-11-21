@@ -30,6 +30,10 @@ export default function Main() {
         Home
       </NavLink>
 
+      <NavLink to="/agents" className="nav-link" aria-current="page">
+        Agents
+      </NavLink>
+
       <a className="nav-link pointer" onClick={handlePostAdClick}>
         Post Ad
       </a>
