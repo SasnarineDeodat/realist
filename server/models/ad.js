@@ -3,15 +3,8 @@ import { model, Schema, ObjectId } from "mongoose";
 const schema = new Schema(
   {
     photos: [{}],
-    price: {
-      type: Number,
-      maxLength: 255,
-    },
-    address: {
-      type: String,
-      maxLength: 255,
-      required: true,
-    },
+    price: { type: Number, maxLength: 255 },
+    address: { type: String, maxLength: 255, required: true },
     bedrooms: Number,
     bathrooms: Number,
     landsize: String,
@@ -24,7 +17,7 @@ const schema = new Schema(
       },
       coordinates: {
         type: [Number],
-        default: [-73.043068, 41.55426],
+        default: [151.20929, -33.86882],
       },
     },
     title: {
@@ -38,10 +31,7 @@ const schema = new Schema(
     },
     description: {},
     postedBy: { type: ObjectId, ref: "User" },
-    sold: {
-      type: Boolean,
-      default: false,
-    },
+    sold: { type: Boolean, default: false },
     googleMap: {},
     type: {
       type: String,
@@ -59,4 +49,5 @@ const schema = new Schema(
   { timestamps: true },
 );
 
+schema.index({ location: "2dsphere" });
 export default model("Ad", schema);
