@@ -1,10 +1,13 @@
 import { useSearch } from "../../context/search";
 import { GOOGLE_PLACES_KEY } from "../../config";
 import GooglePlacesAutoComplete from "react-google-places-autocomplete";
+import { sellPrices, rentPrices } from "../../helpers/priceList";
 
 export default function SearchForm() {
   // context
   const [search, setSearch] = useSearch();
+
+  console.log(sellPrices, rentPrices);
 
   return (
     <>
