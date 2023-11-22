@@ -32,7 +32,59 @@ export default function SearchForm() {
           <button className="btn btn-primary col-lg-2 square">Rent</button>
           <button className="btn btn-primary col-lg-2 square">House</button>
           <button className="btn btn-primary col-lg-2 square">Land</button>
-          <button className="btn btn-primary col-lg-2 square">Price</button>
+
+          <div className="dropdown">
+            <button
+              className="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              &nbsp; Price range
+            </button>
+            <ul className="dropdown-menu">
+              {search.action === "Buy" ? (
+                <>
+                  {sellPrices?.map((p) => (
+                    <li key={p._id}>
+                      <a
+                        className="dropdown-item"
+                        onClick={() =>
+                          setSearch({
+                            ...search,
+                            price: p.name,
+                            priceRange: p.array,
+                          })
+                        }
+                      >
+                        {p.name}
+                      </a>
+                    </li>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {rentPrices?.map((p) => (
+                    <li key={p._id}>
+                      <a
+                        className="dropdown-item"
+                        onClick={() =>
+                          setSearch({
+                            ...search,
+                            price: p.name,
+                            priceRange: p.array,
+                          })
+                        }
+                      >
+                        {p.name}
+                      </a>
+                    </li>
+                  ))}
+                </>
+              )}
+            </ul>
+          </div>
+
           <button className="btn btn-danger col-lg-2 square">Search</button>
         </div>
       </div>
