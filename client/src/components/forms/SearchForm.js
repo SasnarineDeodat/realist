@@ -2,6 +2,7 @@ import { useSearch } from "../../context/search";
 import { GOOGLE_PLACES_KEY } from "../../config";
 import GooglePlacesAutoComplete from "react-google-places-autocomplete";
 import { sellPrices, rentPrices } from "../../helpers/priceList";
+import Rent from "../../pages/Rent";
 
 export default function SearchForm() {
   // context
@@ -28,10 +29,38 @@ export default function SearchForm() {
           </div>
         </div>
         <div className="d-flex justify-content-center mt-3">
-          <button className="btn btn-primary col-lg-2 square">Buy</button>
-          <button className="btn btn-primary col-lg-2 square">Rent</button>
-          <button className="btn btn-primary col-lg-2 square">House</button>
-          <button className="btn btn-primary col-lg-2 square">Land</button>
+          <button
+            onClick={() => {
+              setSearch({ ...search, action: "Buy", price: "" });
+            }}
+            className="btn btn-primary col-lg-2 square"
+          >
+            {search.action === "Buy" ? "✅ Buy" : "Buy"}
+          </button>
+          <button
+            onClick={() => {
+              setSearch({ ...search, action: "Rent", price: "" });
+            }}
+            className="btn btn-primary col-lg-2 square"
+          >
+            {search.action === "Rent" ? "✅ Rent" : "Rent"}
+          </button>
+          <button
+            onClick={() => {
+              setSearch({ ...search, type: "House", price: "" });
+            }}
+            className="btn btn-primary col-lg-2 square"
+          >
+            {search.type === "House" ? "✅ House" : "House"}
+          </button>
+          <button
+            onClick={() => {
+              setSearch({ ...search, type: "Land", price: "" });
+            }}
+            className="btn btn-primary col-lg-2 square"
+          >
+            {search.type === "Land" ? "✅ Land" : "Land"}
+          </button>
 
           <div className="dropdown">
             <button
@@ -40,43 +69,50 @@ export default function SearchForm() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              &nbsp; Price range
+              &nbsp; {search.price ? search.price : "Price"}
             </button>
             <ul className="dropdown-menu">
               {search.action === "Buy" ? (
                 <>
-                  {sellPrices?.map((p) => (
-                    <li key={p._id}>
+                  {sellPrices?.map((item) => (
+                    <li key={item._id}>
                       <a
+                        onClick={() => {
+                          setSearch({
+                            ...search,
+                            price: item.name,
+                            priceRange: item.array,
+                          });
+                        }}
                         className="dropdown-item"
                         onClick={() =>
                           setSearch({
                             ...search,
-                            price: p.name,
-                            priceRange: p.array,
+                            price: item.name,
+                            priceRange: item.array,
                           })
                         }
                       >
-                        {p.name}
+                        {item.name}
                       </a>
                     </li>
                   ))}
                 </>
               ) : (
                 <>
-                  {rentPrices?.map((p) => (
-                    <li key={p._id}>
+                  {rentPrices?.map((item) => (
+                    <li key={item._id}>
                       <a
                         className="dropdown-item"
                         onClick={() =>
                           setSearch({
                             ...search,
-                            price: p.name,
-                            priceRange: p.array,
+                            price: item.name,
+                            priceRange: item.array,
                           })
                         }
                       >
-                        {p.name}
+                        {item.name}
                       </a>
                     </li>
                   ))}
@@ -87,6 +123,8 @@ export default function SearchForm() {
 
           <button className="btn btn-danger col-lg-2 square">Search</button>
         </div>
+
+        <pre>{JSON.stringify(search, null, 4)}</pre>
       </div>
     </>
   );
