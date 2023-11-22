@@ -161,7 +161,7 @@ export default function SearchForm() {
           </button>
         </div>
 
-        <pre>{JSON.stringify(search, null, 4)}</pre>
+        {/* <pre>{JSON.stringify(search, null, 4)}</pre> */}
       </div>
     </>
   );
