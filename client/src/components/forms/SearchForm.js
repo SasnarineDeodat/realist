@@ -2,13 +2,45 @@ import { useSearch } from "../../context/search";
 import { GOOGLE_PLACES_KEY } from "../../config";
 import GooglePlacesAutoComplete from "react-google-places-autocomplete";
 import { sellPrices, rentPrices } from "../../helpers/priceList";
-import Rent from "../../pages/Rent";
-
+import queryString from "query-string";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function SearchForm() {
   // context
   const [search, setSearch] = useSearch();
+  // hooks
+  const navigate = useNavigate();
 
-  console.log(sellPrices, rentPrices);
+  const handleSearch = async () => {
+    setSearch({ ...search, loading: true });
+    try {
+      const { results, page, price, ...rest } = search;
+
+      const query = queryString.stringify(rest);
+      // console.log(query);
+
+      const { data } = await axios.get(`/search?${query}`);
+
+      if (search?.page !== "/search") {
+        setSearch((prev) => ({
+          ...prev,
+          results: data,
+          loading: false,
+        }));
+        navigate("/search");
+      } else {
+        setSearch((prev) => ({
+          ...prev,
+          results: data,
+          page: window.location.pathname,
+          loading: false,
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+      setSearch({ ...search, loading: false });
+    }
+  };
 
   return (
     <>
@@ -121,7 +153,12 @@ export default function SearchForm() {
             </ul>
           </div>
 
-          <button className="btn btn-danger col-lg-2 square">Search</button>
+          <button
+            onClick={handleSearch}
+            className="btn btn-danger col-lg-2 square"
+          >
+            Search
+          </button>
         </div>
 
         <pre>{JSON.stringify(search, null, 4)}</pre>
